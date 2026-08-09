@@ -8,5 +8,5 @@
       required
     >
     <button type="submit">Search</button>
-  </form>
-</search>
+  <form>
+<search>
