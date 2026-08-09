@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mod Search Results</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 700px; margin: 40px auto; padding: 20px; background-color: #121212; color: #e0e0e0; }
+        h1 { color: #4caf50; }
+        .query-title { color: #81c784; font-style: italic; }
+        .result-card { background: #1e1e1e; border: 1px solid #333; padding: 15px; margin-bottom: 15px; border-radius: 6px; }
+        .badge { display: inline-block; padding: 3px 8px; font-size: 12px; font-weight: bold; border-radius: 4px; margin-bottom: 8px; }
+        .badge-fabric { background-color: #2e7d32; color: #fff; }
+        .badge-neoforge { background-color: #d84315; color: #fff; }
+        .result-card h3 { margin: 0 0 5px 0; }
+        .result-card a { color: #64b5f6; text-decoration: none; font-weight: bold; }
+        .result-card a:hover { text-decoration: underline; }
+        .no-results { color: #e57373; font-weight: bold; }
+        .loading { font-size: 18px; color: #aaa; }
+    </style>
+</head>
+<body>
+
+    <h1>Search Results</h1>
+    <p>Showing matches for: <span id="searchWord" class="query-title">...</span></p>
+    
+    <div id="loadingStatus" class="loading">Searching websites...</div>
+    <div id="resultsContainer"></div>
+
+    <p><a href="index.html" style="color: #aaa; text-decoration: none;">← New Search</a></p>
+
+    <script>
+        // 1. Hardcoded structure matching your subdomains' pages/mods
+        // Add titles and text snippets here so JS can match keywords instantly.
+        const searchDatabase = [
+            {
+                title: "My Fabric Mods Home",
+                description: "This is my mods website for Minecraft Fabric. Access the main repository.",
+                url: "https://github.io",
+                platform: "Fabric"
+            },
+            {
+                title: "My NeoForge Mods Home",
+                description: "This is my mods website. Built now for NeoForge ecosystems.",
+                url: "https://github.io",
+                platform: "NeoForge"
+            }
+            // Pro Tip: Add entries like { title: "Super Sword Mod", description: "Adds weapons", url: "...", platform: "Fabric" }
+        ];
+
+        // 2. Extract query string parameter (?q=something)
+        const urlParams = new URLSearchParams(window.location.search);
+        const query = urlParams.get('q') ? urlParams.get('q').trim().toLowerCase() : '';
+        
+        document.getElementById('searchWord').textContent = urlParams.get('q') || 'None';
+        document.getElementById('loadingStatus').style.display = 'none';
+
+        const container = document.getElementById('resultsContainer');
+
+        if (query === '') {
+            container.innerHTML = "<p class='no-results'>Please enter a valid search term.</p>";
+        } else {
+            let matchesFound = 0;
+
+            searchDatabase.forEach(item => {
+                // Look for text matches across both titles and platform bodies
+                if (item.title.toLowerCase().includes(query) || item.description.toLowerCase().includes(query) || item.platform.toLowerCase().includes(query)) {
+                    matchesFound++;
+                    
+                    const badgeClass = item.platform.toLowerCase() === 'fabric' ? 'badge-fabric' : 'badge-neoforge';
+                    
+                    const cardHTML = `
+                        <div class="result-card">
+                            <span class="badge ${badgeClass}">${item.platform}</span>
+                            <h3><a href="${item.url}" target="_blank">${item.title}</a></h3>
+                            <p>${item.description}</p>
+                            <small><a href="${item.url}" target="_blank">${item.url}</a></small>
+                        </div>
+                    `;
+                    container.innerHTML += cardHTML;
+                }
+            });
+
+            if (matchesFound === 0) {
+                container.innerHTML = "<p class='no-results'>No mod content matches your query. Try searching 'Fabric', 'NeoForge', or 'website'.</p>";
+            }
+        }
+    </script>
+</body>
+</html>
