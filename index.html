@@ -14,44 +14,7 @@
     </style>
 </head>
 <body>
-
-    <h2>Search Content</h2>
-    
-    <!-- HTML Search Bar -->
-    <div class="search-box">
-        <input type="search" id="searchInput" placeholder="Type to search..." onkeyup="filterList()">
-    </div>
-
-    <!-- The List of Items to Search Through -->
-    <ul id="itemList">
-        <li class="search-item">How to learn PHP</li>
-        <li class="search-item">HTML search bar tutorial</li>
-        <li class="search-item">CSS flexbox guide</li>
-        <li class="search-item">JavaScript for beginners</li>
-        <li class="search-item">GitHub Pages deployment tips</li>
-    </ul>
-
-    <script>
-        function filterList() {
-            // 1. Get the text the user typed and convert to lowercase
-            let input = document.getElementById('searchInput').value.toLowerCase();
-            
-            // 2. Grab all the items in our list
-            let items = document.getElementsByClassName('search-item');
-
-            // 3. Loop through every item and hide it if it doesn't match
-            for (let i = 0; i < items.length; i++) {
-                let text = items[i].textContent.toLowerCase();
-                
-                if (text.includes(input)) {
-                    items[i].classList.remove('hidden'); // Show it
-                } else {
-                    items[i].classList.add('hidden');    // Hide it
-                }
-            }
-        }
-    </script>
-    <search>
+<search>
   <form action="links.html" method="GET">
     <input 
       type="search" 
