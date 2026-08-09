@@ -1,54 +1,56 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>InModer Search</title>
-	<style>
-  		.search-form {
-    		display: flex;
-    		max-width: 400px;
-    		margin: 20px auto;
-    		font-family: sans-serif;
-  		}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Pages Search</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 500px; margin: 50px auto; padding: 20px; }
+        .search-box { display: flex; gap: 10px; margin-bottom: 20px; }
+        input { flex: 1; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; }
+        ul { list-style: none; padding: 0; }
+        li { padding: 10px; border-bottom: 1px solid #eee; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
 
-  		.search-form input[type="search"] {
-    		flex: 1;
-    		padding: 10px 15px;
-   			font-size: 16px;
-    		border: 2px solid #ccc;
-    		border-right: none; 
-    		border-radius: 4px 0 0 4px;
-    		outline: none;
-  		}
+    <h2>Search Content</h2>
+    
+    <!-- HTML Search Bar -->
+    <div class="search-box">
+        <input type="search" id="searchInput" placeholder="Type to search..." onkeyup="filterList()">
+    </div>
 
-  		.search-form button {
-    		padding: 10px 20px;
-    		font-size: 16px;
-   			background-color: #007BFF;
-    		color: white;
-    		border: 2px solid #007BFF;
-    		border-radius: 0 4px 4px 0;
-    		cursor: pointer;
-    		transition: background-color 0.2s;
-  		}
+    <!-- The List of Items to Search Through -->
+    <ul id="itemList">
+        <li class="search-item">How to learn PHP</li>
+        <li class="search-item">HTML search bar tutorial</li>
+        <li class="search-item">CSS flexbox guide</li>
+        <li class="search-item">JavaScript for beginners</li>
+        <li class="search-item">GitHub Pages deployment tips</li>
+    </ul>
 
-  		.search-form button:hover {
-    		background-color: #0056b3;
-   			border-color: #0056b3;
-  		}
-		</style>
-  </head>
-  <body>
-	<search>
-  		<form action="/search" method="GET" class="search-form">
-   			<input 
-      			type="search" 
-      			name="q" 
-      			placeholder="Search this site..." 
-      			aria-label="Search through site content"
-      			required
-    		>
-    		<button type="submit">Search</button>
-  		</form>
-	</search>
-  </body>
+    <script>
+        function filterList() {
+            // 1. Get the text the user typed and convert to lowercase
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            
+            // 2. Grab all the items in our list
+            let items = document.getElementsByClassName('search-item');
+
+            // 3. Loop through every item and hide it if it doesn't match
+            for (let i = 0; i < items.length; i++) {
+                let text = items[i].textContent.toLowerCase();
+                
+                if (text.includes(input)) {
+                    items[i].classList.remove('hidden'); // Show it
+                } else {
+                    items[i].classList.add('hidden');    // Hide it
+                }
+            }
+        }
+    </script>
+
+</body>
 </html>
